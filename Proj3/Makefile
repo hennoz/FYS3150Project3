@@ -35,7 +35,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = Proj31.0.0
-DISTDIR = /Users/hennoz/fys3150_project3/Proj3/.tmp/Proj31.0.0
+DISTDIR = /Users/hennoz/FYS3150Project3/Proj3/.tmp/Proj31.0.0
 LINK          = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 LFLAGS        = -stdlib=libc++ -headerpad_max_install_names $(EXPORT_ARCH_ARGS) -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk -mmacosx-version-min=10.11 -Wl,-rpath,@executable_path/Frameworks
 LIBS          = $(SUBLIBS)  
@@ -50,8 +50,14 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = main.cpp 
-OBJECTS       = main.o
+SOURCES       = main.cpp \
+		celestialbody.cpp \
+		vec3.cpp \
+		solver.cpp 
+OBJECTS       = main.o \
+		celestialbody.o \
+		vec3.o \
+		solver.o
 DIST          = ../../Qt/5.11.2/clang_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.11.2/clang_64/mkspecs/qdevice.pri \
 		../../Qt/5.11.2/clang_64/mkspecs/features/device_config.prf \
@@ -190,6 +196,7 @@ DIST          = ../../Qt/5.11.2/clang_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.11.2/clang_64/mkspecs/features/qt_config.prf \
 		../../Qt/5.11.2/clang_64/mkspecs/macx-clang/qmake.conf \
 		../../Qt/5.11.2/clang_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../Qt/5.11.2/clang_64/mkspecs/features/exclusive_builds.prf \
 		../../Qt/5.11.2/clang_64/mkspecs/features/mac/sdk.prf \
 		../../Qt/5.11.2/clang_64/mkspecs/features/toolchain.prf \
@@ -211,7 +218,12 @@ DIST          = ../../Qt/5.11.2/clang_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.11.2/clang_64/mkspecs/features/exceptions.prf \
 		../../Qt/5.11.2/clang_64/mkspecs/features/yacc.prf \
 		../../Qt/5.11.2/clang_64/mkspecs/features/lex.prf \
-		Proj3.pro  main.cpp
+		Proj3.pro celestialbody.h \
+		vec3.h \
+		solver.h main.cpp \
+		celestialbody.cpp \
+		vec3.cpp \
+		solver.cpp
 QMAKE_TARGET  = Proj3
 DESTDIR       = 
 TARGET        = Proj3
@@ -369,6 +381,7 @@ Makefile: Proj3.pro ../../Qt/5.11.2/clang_64/mkspecs/macx-clang/qmake.conf ../..
 		../../Qt/5.11.2/clang_64/mkspecs/features/qt_config.prf \
 		../../Qt/5.11.2/clang_64/mkspecs/macx-clang/qmake.conf \
 		../../Qt/5.11.2/clang_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../Qt/5.11.2/clang_64/mkspecs/features/exclusive_builds.prf \
 		../../Qt/5.11.2/clang_64/mkspecs/features/mac/sdk.prf \
 		../../Qt/5.11.2/clang_64/mkspecs/features/toolchain.prf \
@@ -530,6 +543,7 @@ Makefile: Proj3.pro ../../Qt/5.11.2/clang_64/mkspecs/macx-clang/qmake.conf ../..
 ../../Qt/5.11.2/clang_64/mkspecs/features/qt_config.prf:
 ../../Qt/5.11.2/clang_64/mkspecs/macx-clang/qmake.conf:
 ../../Qt/5.11.2/clang_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../Qt/5.11.2/clang_64/mkspecs/features/exclusive_builds.prf:
 ../../Qt/5.11.2/clang_64/mkspecs/features/mac/sdk.prf:
 ../../Qt/5.11.2/clang_64/mkspecs/features/toolchain.prf:
@@ -575,6 +589,7 @@ clean: compiler_clean
 
 distclean: clean 
 	-$(DEL_FILE) $(TARGET) 
+	-$(DEL_FILE) .qmake.stash
 	-$(DEL_FILE) Makefile
 
 
@@ -596,8 +611,22 @@ compiler_clean:
 
 ####### Compile
 
-main.o: main.cpp 
+main.o: main.cpp solver.h \
+		celestialbody.h \
+		vec3.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
+
+celestialbody.o: celestialbody.cpp celestialbody.h \
+		vec3.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o celestialbody.o celestialbody.cpp
+
+vec3.o: vec3.cpp vec3.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o vec3.o vec3.cpp
+
+solver.o: solver.cpp solver.h \
+		celestialbody.h \
+		vec3.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o solver.o solver.cpp
 
 ####### Install
 

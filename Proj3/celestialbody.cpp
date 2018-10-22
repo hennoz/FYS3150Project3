@@ -32,11 +32,11 @@ double CelestialBody::distance( CelestialBody other ) {
 //  ACCELLERATION
 //  Define accelleration method
 double CelestialBody::accelleration(CelestialBody other, int axis) {
-    double tol = 1e-6;
     double r = this->distance( other );
-    if ( fabs(r) > tol )
+    if ( r != 0)
     {
-        return -(this->position[axis] - other.position[axis])*4*M_PI*M_PI*other.mass/(r*r*r)/* *RelativisticCorrection( other )*/ ;
+        return -(this->position[axis] - other.position[axis])*4*M_PI*M_PI*other.mass/(r*r*r);
+//        return -(this->position[axis] - other.position[axis])*4*M_PI*M_PI*other.mass/pow(r, 3.9);
     } else {
         return 0;
     }
@@ -46,6 +46,7 @@ double CelestialBody::accelleration(CelestialBody other, int axis) {
 double CelestialBody::accellerationRel(CelestialBody other, int axis) {
     double r = this->distance( other );
     double l = this->AngularMoment();
+//    double a = this->accelleration( other, axis );
     double c  = 63197.8; //  AU/yr
     if ( r!=0 )    {
         return -( 1 + 3*l*l/(r*r*c*c))*(this->position[axis] - other.position[axis])*4*M_PI*M_PI*other.mass/(r*r*r);
@@ -53,7 +54,6 @@ double CelestialBody::accellerationRel(CelestialBody other, int axis) {
         return 0;
     }
 }
-
 
 double CelestialBody::PerihelionPrecession(){
     return this->position[1]/this->position[0];
