@@ -5,6 +5,9 @@
 # Prerequisites
 *.d
 
+*.txt
+*.dat
+
 # Compiled Object files
 *.slo
 *.lo
@@ -189,6 +192,8 @@ dmypy.json
 [Ss]cripts
 pyvenv.cfg
 pip-selfcheck.json
+
+
 
 
 # End of https://www.gitignore.io/api/c++,macos,python
