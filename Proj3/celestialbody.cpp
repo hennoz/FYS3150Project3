@@ -9,8 +9,10 @@
 //        name = newName;
 //}
 
-// NameOfClass::ObjetType( variables / properties ,... )
-CelestialBody::CelestialBody( double m ,double x, double y, double z, double vx, double vy, double vz) {
+//  NameOfClass::ObjetType( variables / properties ,... )
+
+//  CELESTIAL BODY CLASS DEFAULT INITIALIZER
+CelestialBody::CelestialBody( double m ,double x, double y, double z, double vx, double vy, double vz ) {
     mass = m;
     position[0] = x;
     position[1] = y;
@@ -20,8 +22,19 @@ CelestialBody::CelestialBody( double m ,double x, double y, double z, double vx,
     velocity[2] = vz;
 }
 
-//  DISTANCE
+//  DEFAULT INITIALIZER
+CelestialBody::CelestialBody( ) {
+    mass = 1;
+    position[0] = 0;
+    position[1] = 0;
+    position[2] = 0;
+    velocity[0] = 0;
+    velocity[1] = 0;
+    velocity[2] = 0;
+}
+
 //  NameOfClass::MethodInClass ( TypeObject )  ---->  define distance "r"
+//  DISTANCE
 double CelestialBody::distance( CelestialBody other ) {
     double dx = this->position[0] - other.position[0];
     double dy = this->position[1] - other.position[1];
@@ -42,23 +55,25 @@ double CelestialBody::accelleration(CelestialBody other, int axis) {
     }
 }
 
-//  SPECIAL ACCELERATION
+//  SPECIAL ACCELERATION FOR MERCURY (DON'T STOP ME NOW)
 double CelestialBody::accellerationRel(CelestialBody other, int axis) {
     double r = this->distance( other );
     double l = this->AngularMoment();
-//    double a = this->accelleration( other, axis );
-    double c  = 63197.8; //  AU/yr
-    if ( r!=0 )    {
+    double c  = 63197.8; // Speed of the in [AU/yr]
+    if ( r!=0 ) {
+        // return this->accelleration( other, axis )*this->RelativisticCorrection( other );
         return -( 1 + 3*l*l/(r*r*c*c))*(this->position[axis] - other.position[axis])*4*M_PI*M_PI*other.mass/(r*r*r);
     } else {
         return 0;
     }
 }
 
+//  PERIHELION PRECESSION Y/X
 double CelestialBody::PerihelionPrecession(){
     return this->position[1]/this->position[0];
 }
 
+//  ANGULAR MOMENTUM PER MASS |r X v|
 double CelestialBody::AngularMoment(){
   double x  = this->position[0];
   double y  = this->position[1];
@@ -70,6 +85,7 @@ double CelestialBody::AngularMoment(){
   return sqrt(( y*vz - z*vy )*( y*vz - z*vy ) + ( x*vz - z*vx )*( x*vz - z*vx ) + ( x*vy - y*vx )*( x*vy - y*vx ));
 }
 
+// //  RELATIVISTIC CORRECTION FOR MERCURY (I'M HAVING SUCH A GOOD TIME)
 //double CelestialBody::RelativisticCorrection( CelestialBody other ){
 //    double c  = 63197.8; //  AU/yr
 //    double cc = c*c;
@@ -79,11 +95,14 @@ double CelestialBody::AngularMoment(){
 
 //}
 
+// //  KINETIC ENERGY
 //double CelestialBody::KineticEnergy(){
 //  double vv = this->velocity[0]*this->velocity[0] + this->velocity[1]*this->velocity[1] + this->velocity[2]*this->velocity[2];
 //  return 0.5*this->mass*vv;
 //}
 
+
+// //  POTENTIAL ENERGY
 //double CelestialBody::PotentialEnergy( CelestialBody other ){
 //  double r = this->distance(other);
 //  if (r!=0){

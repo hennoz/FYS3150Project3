@@ -5,7 +5,7 @@
 #include <string>
 #include "solver.h"
 #include "celestialbody.h"
-#include "vec3.h"
+//#include "vec3.h"
 
 using namespace std;
 
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
         m_Objects.push_back(Uranus);
         m_Objects.push_back(Neptune);
         m_Objects.push_back(Pluto);
-        Solver Solv = Solver( MeshPoints,248,m_Objects, 0 );
+        Solver Solv = Solver( MeshPoints, 248, m_Objects, 0 );
         Solv.solve();
     }
 
@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
         CelestialBody Earth   = CelestialBody(5.972E24/solarMass,9.837576984919719E-01,1.889233809711713E-01,-8.631011464030984E-05,-3.406523137555859E-03*365.25,1.686035619678342E-02*365.25,-1.194254105980157E-06*365.25);
         m_Objects.push_back(Sun);
         m_Objects.push_back(Earth);
-        Solver Solv = Solver( 1000,1,m_Objects, 0 );
+        Solver Solv = Solver( 1000, 1, m_Objects, 0 );
         Solv.solve();
     }
 
@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
         m_Objects.push_back(Sun);
         m_Objects.push_back(Earth_z0);
         m_Objects.push_back(Jupiter_z0);
-        Solver Solv = Solver( 10000,12,m_Objects, 0);
+        Solver Solv = Solver( 10000, 12, m_Objects, 0);
         Solv.solve();
 
     }
@@ -195,15 +195,17 @@ void velocityVerlet(int N, int T, double *x, double *vx, double *y, double *vy, 
     x[0] = 1; y[0] = 0; vx[0] = 0; vy[0] = 2*M_PI;
 
     double r0 = sqrt(x[0]*x[0] + y[0]*y[0]);
-//    ax[0] = -GMo/(r0*r0*r0)*x[0]; ay[0] = -GMo/(r0*r0*r0)*y[0];
-    ax[0] = -GMo / pow(r0,beta)*x[0]; ay[0] = -GMo/pow(r0,beta)*y[0];
+    ax[0] = -GMo/(r0*r0*r0)*x[0]; ay[0] = -GMo/(r0*r0*r0)*y[0];
+    //  Escape velocity
+//    ax[0] = -GMo / pow(r0,beta)*x[0]; ay[0] = -GMo/pow(r0,beta)*y[0];
 
-    for ( int i =1; i < N; i++)
+    for ( int i = 0; i < N; i++)
     {
         double r = sqrt(x[i]*x[i] + y[i]*y[i]);
 
-//        double GMorrr = GMo/(r*r*r);
-        double GMorrr = GMo/pow(r,beta);
+        double GMorrr = GMo/(r*r*r);
+        //  Escape velocity
+//        double GMorrr = GMo/pow(r,beta);
 
         x[i+1]  = x[i]  + h*vx[i] + hh2*ax[i];
         y[i+1]  = y[i]  + h*vy[i] + hh2*ay[i];

@@ -1,5 +1,3 @@
-//  ODE systems solver uses Forward Euler ( m = 0 ) or Velocity Verlet ( m = 1 )
-
 #include "solver.h"
 
 Solver::Solver(int N, double T_F, vector<CelestialBody> objects, int m)

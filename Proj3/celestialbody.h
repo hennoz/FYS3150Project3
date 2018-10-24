@@ -1,7 +1,7 @@
 #ifndef CELESTIALBODY_H
 #define CELESTIALBODY_H
 #include <string>
-#include "vec3.h"
+//#include "vec3.h"
 #include <math.h>
 
 using namespace std;
@@ -22,7 +22,7 @@ public:
 //    CelestialBody(vec3 newPosition, vec3 newVelocity, double newMass, string newName );
 
     CelestialBody( double m ,double x, double y, double z, double vx, double vy, double vz);
-
+    CelestialBody( );
     double distance( CelestialBody other);
     double accelleration ( CelestialBody other, int axis);
     double KineticEnergy();

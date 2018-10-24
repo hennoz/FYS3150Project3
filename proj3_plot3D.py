@@ -14,7 +14,7 @@ z = fileData[:,5]
 
 w = 13; h = 8
 fig = plt.figure(figsize=(w,h))
-ax = fig.gca(projection='3d')
+ax = fig.ca(projection='3d')
 
 f_size = 24
 

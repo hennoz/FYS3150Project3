@@ -82,8 +82,7 @@ vec3 &vec3::operator-=(const vec3 &other)
     return *this;
 }
 
-
-//
+//  Componentwise multiplication
 vec3 &vec3::operator*=(double other)
 {
     components[0] *= other;
@@ -92,6 +91,7 @@ vec3 &vec3::operator*=(double other)
     return *this;
 }
 
+//  Componentwise division
 vec3 &vec3::operator/=(double other)
 {
     components[0] /= other;
